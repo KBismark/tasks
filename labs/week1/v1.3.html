@@ -459,6 +459,8 @@
                     
                 </div>
             </div>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#4c4c4c"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
         </div>
     </main>
     
@@ -537,11 +539,17 @@
         let TODOS = [];
 
         // Handle creation of to-do item
-        const todoItemTemplate = document.getElementById('todo-item-template').firstElementChild;
+        const template = document.getElementById('todo-item-template')
+        const todoItemTemplate = template.firstElementChild;
+        const cancelIcon = template.lastElementChild;
+        const editIcon = cancelIcon.previousElementSibling;
+        // document.getElementsByClassName('todo-action')[0].firstElementChild;
         const todoItemsContainer = document.getElementById('todos');
         const todoItems = todoItemsContainer.getElementsByClassName('todo-item');
 
-        function createTodoItem({status, title, description, dateTime}){
+        let editCallbacks = {}
+
+        function createTodoItem({status, title, description, dateTime, todoId, dueTime}){
             
             const todoItemNode = todoItemTemplate.cloneNode(true);
             const todoItemInnerNodes = getTodoItemNodes(todoItemNode);
@@ -550,6 +558,33 @@
             function onRemoveItem(e){
                 removeTodoItem(todoItemNode);
                 cleanUp(); // Remove event listeners
+            }
+            function onEdit(){
+                for(let id in editCallbacks){
+                    editCallbacks[id]()
+                }
+                const currentIcon = this.firstElementChild;
+                if(!this.isEditingOn){
+                    const cancelIconCopy = cancelIcon.cloneNode(true);
+                    currentIcon.replaceWith(cancelIconCopy);
+                    editItem(todoItemNode);
+                    this.isEditingOn = true;
+                    editCallbacks[todoId] = ()=>{
+                        const editIconCopy = editIcon.cloneNode(true);
+                        console.log([this.firstElementChild]);
+                        console.log(editIconCopy);
+                        
+                        
+                        this.firstElementChild.replaceWith(editIconCopy);
+                        this.isEditingOn = false;
+                    }
+                }else{
+                    // for(todoId in editCallbacks){
+                        editCallbacks[todoId]()
+                    // }
+                    
+                }
+                
             }
             function onStatusUpdate(e){
                 if(this.markedComplete){
@@ -566,10 +601,12 @@
             }
             function cleanUp(){
                 todoItemInnerNodes.removeButton.removeEventListener('click',onRemoveItem,false);
-                todoItemInnerNodes.statusButton.removeEventListener('click',onStatusUpdate,false)
+                todoItemInnerNodes.statusButton.removeEventListener('click',onStatusUpdate,false);
+                todoItemInnerNodes.editButton.removeEventListener('click',onEdit,false)
             }
             todoItemInnerNodes.removeButton.addEventListener('click',onRemoveItem,false)
             todoItemInnerNodes.statusButton.addEventListener('click',onStatusUpdate,false)
+            todoItemInnerNodes.editButton.addEventListener('click',onEdit,false)
             todoItemInnerNodes.dateTime.textContent = dateTime;
             todoItemInnerNodes.title.textContent = title;
             todoItemInnerNodes.description.textContent = description||'No description';
@@ -585,9 +622,9 @@
             setTimeout(() => {
                 
                 
-                const dueTime = (new Date(dateTime)).getTime();
+                dueTime = dueTime||(new Date(dateTime)).getTime();
                 // Add identifier to item
-                const todoId = `${Math.random()}-${dueTime}`;
+                todoId = todoId||`${Math.random()}-${dueTime}`;
                 todoItemNode.todoId = todoId;
                 todoItemNode.dueTime = dueTime;
                 // Set entry animation 
@@ -674,16 +711,32 @@
                     itemsToMoveDown.push(todoItemNode)
                 }
             })
-            itemsToMoveDown.forEach(slideTodoItemDown);
-            itemsToMoveUp.forEach(slideTodoItemUp);
-
-            setTimeout(() => {
-                todoItemsContainer.textContent = '';
-                itemsToMoveDown.forEach(removeSlideDownClass);
-                itemsToMoveUp.forEach(removeSlideUpClass);
-                todoItemsContainer.prepend(...todos);
-            }, 200);
             
+            if(itemsToMoveDown.length+itemsToMoveUp.length){
+                itemsToMoveDown.forEach(slideTodoItemDown);
+                itemsToMoveUp.forEach(slideTodoItemUp);
+                setTimeout(() => {
+                    todoItemsContainer.textContent = '';
+                    itemsToMoveDown.forEach(removeSlideDownClass);
+                    itemsToMoveUp.forEach(removeSlideUpClass);
+                    todoItemsContainer.prepend(...todos);
+                }, 200);
+            }
+            
+            
+        }
+
+        function editItem(todoItemNode){
+            
+            const todoItemData = TODOS.find((data)=>data.todoId===todoItemNode.todoId);
+            
+            if(todoItemData){
+                // {status, title, description, dateTime, dueTime, todoId }
+                inputs[0].value = todoItemData.title;
+                inputs[1].value = todoItemData.description;
+                inputs[2].value = new Date(todoItemData.dateTime).toISOString().slice(0, 16);
+                inputs[0].focus()
+            }
         }
 
         // Get the necessary nodes from a cloned to do item
@@ -712,7 +765,8 @@
             if(todos){
                 try {
                     todos = JSON.parse(todos);
-                    todos.forEach(createTodoItem)
+                    todos.forEach(createTodoItem);
+                    // TODOS = todos;
                 } catch (error) {
                     
                 }
