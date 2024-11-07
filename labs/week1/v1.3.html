@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            transition: all;
+            transition-duration: .2s;
+            transition-timing-function: linear;
+        }
+        body{
+            margin: 0;
+            background-color: rgba(248, 251, 252, 0.812);
+            display: flex;
+            justify-content: center;
+            background-color: #f8fbfc;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'%3E%3Cpath fill='%2392a8ac' fill-opacity='0.09' d='M14 16H9v-2h5V9.87a4 4 0 1 1 2 0V14h5v2h-5v15.95A10 10 0 0 0 23.66 27l-3.46-2 8.2-2.2-2.9 5a12 12 0 0 1-21 0l-2.89-5 8.2 2.2-3.47 2A10 10 0 0 0 14 31.95V16zm40 40h-5v-2h5v-4.13a4 4 0 1 1 2 0V54h5v2h-5v15.95A10 10 0 0 0 63.66 67l-3.47-2 8.2-2.2-2.88 5a12 12 0 0 1-21.02 0l-2.88-5 8.2 2.2-3.47 2A10 10 0 0 0 54 71.95V56zm-39 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm40-40a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM15 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm40 40a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'%3E%3C/path%3E%3C/svg%3E");
+           
+        }
+        main{
+            min-width: 320px;
+            /* background-color: red; */
+            /* height: 494px; */
+            max-width: 1000px;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            /* flex-direction: column; */
+            width: 100%;
+            padding-top: 40px;
+        }
+        #main{
+            /* min-width: 320px; */
+            /* background-color: red; */
+            /* height: 494px; */
+            /* max-width: 1000px; */
+            display: flex;
+            /* justify-content: center; */
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            /* padding-top: 40px; */
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 40%;
+            padding-top: 40px;
+            margin-left: 10%;
+        }
+        #left-empty{
+            width: 100%;
+            /* background-color: red; */
+        }
+        input{
+           
+        }
+        .input{
+            width: 90%;
+            padding: 10px 20px 15px;
+            border-radius: 10px;
+            outline: none;
+            border: 2px solid #f1f1f1;
+            font-weight: 500;
+            font-size: 16px;
+            
+
+            background-color: #fff;
+            margin-bottom: 30px;
+        }
+        .input:focus{
+            background-color: #eef7fad4;
+            border: 2px solid rgba(10, 172, 231);
+            padding-top: 20px;
+            padding-bottom: 5px;
+
+        }
+        .input-description{
+            position: absolute;background-color: re;
+            margin:0 5%;top:0; left:0;
+            color: #7b7b7b;
+        }
+        .input-description-content{
+            margin: 15px 0px 0px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            transition-duration: .1s;
+        }
+        .input:focus+.input-description{
+            color: rgba(10, 172, 231);
+        }
+        .input:focus+.input-description>.input-description-content{
+            margin: 5px 0px 0px 20px;
+            font-size: 13px;
+        }
+        #title-input{
+            
+        }
+        textarea{
+            width: 90%;
+            resize: none;
+            height: 150px;
+            padding-top: 15px;
+        }
+
+        .input-container{
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .input:not(:focus)+.hide-on-input-blur{
+            display: none;
+        }
+
+        button{
+            background-color: rgba(10, 172, 231);
+            padding: 10px 20px;
+            border-radius: 10px;
+            outline: none;
+            border: none;
+            font-weight: 600;
+            color: #f1f1f1;
+            font-size: 17px;
+            cursor: pointer;
+        }
+        /* .button{
+            background-color: rgba(10, 172, 231);
+            padding: 10px 20px;
+            border-radius: 10px;
+            outline: none;
+            border: none;
+        } */
+        
+        button:hover{
+            background-color: #41b7e1;
+        }
+        button:active{
+            background-color: #05a4df;
+        }
+        #todo-button{
+            width: 90%;
+        }
+
+
+        h1,h2,h3,h4,h5,h6{
+            color: #4c4c4c;
+        }
+        #todos{
+            width: 100%;
+            position: relative;
+            /* margin: 50px 0;
+            margin-top: 6rem; */
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .todo-item{
+            background-color: #fff;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+            /* height: 160px; */
+            width: 90%;
+            margin-bottom: 35px;
+            cursor: pointer;
+            border-radius: 0px;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+        .todo-item.default{
+            border-left: 4px solid rgb(5, 164, 223);
+        }
+        .todo-item.overdue{
+            border-left: 4px solid #dd335e;
+        }
+        .todo-item.complete{
+            border-left: 4px solid #33dda4;
+        }
+        
+        .todo-item:hover{
+            box-shadow: rgba(0, 0, 0, 0.1) -10px 2px 10px;
+            transform: translateX(10px);
+        }
+        .todo-top-section{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .todo-actions{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .todo-action{
+            width: 35px;
+            height: 35px;
+            border-radius: 7px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .todo-action:hover{
+            background-color: #f0f4f8;
+        }
+        .todo-action.danger{
+
+        }
+        .todo-action.danger:hover{
+            background-color: #f8f0f2;
+            color: #dd335e;
+        }
+        .todo-top-section h3{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .todo-description{
+            color: #4c4c4c;
+            font-size: 16px;
+            font-weight: 500px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            line-clamp: 6;
+            -webkit-line-clamp: 6;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        button.todo-status-button{
+            font-size: 14px;
+            padding: 8px 25px;
+            border-radius: 6px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        .todo-item.default button.todo-status-button{
+            background-color: #eef7ff;
+            color: #05a4df;
+        }
+        .todo-item.complete button.todo-status-button{
+            background-color: #eefff9;
+            color: #33dda4;
+        }
+        .todo-item.overdue button.todo-status-button{
+            background-color: #ffeef0;
+            color: #dd335e;
+        }
+        .todo-status-container{
+            display: flex;
+            align-items: center;
+            color: #4c4c4c;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        .todo-due-point{
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+        .todo-item.default .todo-due-point{
+            background-color: #05a4df;
+        }
+        .todo-item.complete .todo-due-point{
+            background-color: #33dda4;
+        }
+        .todo-item.overdue .todo-due-point{
+            background-color: #dd335e;
+        }
+
+        @media screen and (min-width:900px){
+            .todo-description{
+                max-width: 85%;
+                line-clamp: 2;
+                -webkit-line-clamp: 2;
+            }
+        }
+        @media screen and (max-width:900px){
+            main{
+                justify-content: initial;
+                flex-direction: column;
+            }
+            #main{
+                position: relative;
+                width: 100%;
+                padding-top: 0px;
+                margin-left: 0px;
+            }
+            #left-empty{
+                display: none;
+                width: 0px;
+            }
+            .todo-heading-container{
+                margin: 0 5%;
+                margin-top: 4rem;
+            }
+        }
+        @media screen and (max-width:500px){
+            .todo-status-container{
+                justify-content: space-between;
+            }
+        }
+        @media screen and (max-width:320px){
+            .todo-item:hover{
+                transform: translateX(0px);
+            }
+        }
+        svg,svg>*{
+            transition: none;
+        }
+
+
+        .slide-down{
+            animation: slide-down-1 .2s ease-out forwards;
+        }
+        @keyframes slide-down-1 {
+            0%{
+                transform: translateY(0%);
+            }
+            100%{
+                transform: translateY(80%);
+            }
+        }
+        .slide-up{
+            animation: slide-up-1 .2s ease-out forwards;
+        }
+        @keyframes slide-up-1 {
+            0%{
+                transform: translateY(0%);
+            }
+            100%{
+                transform: translateY(-20%);
+            }
+        }
+        .item-entry{
+            animation: slide-entry .2s ease-in forwards;
+            opacity: 0;
+        }
+        @keyframes slide-entry {
+            0%{
+                transform: translateY(-20%);
+                opacity: 0;
+            }
+            100%{
+                transform: translateY(0%);
+                opacity: 1;
+            }
+        }
+        .move-item-up{
+            animation: move-up .6s ease-in-out forwards;
+            opacity: .3;
+            z-index: 8;
+        }
+        @keyframes move-up {
+            0%{
+                transform: translateY(200%);
+                opacity: .3;
+            }
+            100%{
+                transform: translateY(0%);
+                opacity: 1;
+            }
+        }
+        .fade-remove{
+            animation: fade-to-remove .3s linear forwards;
+            opacity: 1;
+        }
+        @keyframes fade-to-remove {
+            0%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <div id="main">
+            <div class="input-container">
+                <input required name="title" class="input" id="title-input" type="text" />
+                <div role="button" class="input-description">
+                    <div class="input-description-content">Enter todo title</div>
+                </div>
+            </div>
+            <div class="input-container">
+                <textarea class="input" name="description" id="description"></textarea>
+                <div role="button" class="input-description"> 
+                    <div class="input-description-content">Description (Optional)</div>
+                </div>
+            </div>
+            <input required style="padding: 10px 20px;" name="date-time" class="input" id="date-time-input" type="datetime-local" />
+            <button id="todo-button" class="button">Add todo item</button>
+
+            
+        </div>
+        <div id="left-empty"></div>
+        
+        <div style="width: 100%;">
+            <div class="todo-heading-container">
+                <h1 style="color: #4c4c4c;margin-top: 0px;">
+                    <!-- <span style="cursor: pointer;color: rgb(5, 164, 223);">#</span> -->
+                    To-Do List
+                </h1>
+            </div>
+            <div id="todos"></div>
+        </div>
+
+        <div style="display: none;opacity: 0;visibility: hidden;" id="todo-item-template">
+            <div class="todo-item">
+                <div>
+                    <div class="todo-top-section">
+                        <h3>Title</h3>
+                        <div class="todo-actions">
+                            <div role="button" aria-label="Edit todo item" class="todo-action" style="margin-right: 15px;">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#4c4c4c"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                            </div>
+                            <div role="button" aria-label="Remove todo item" class="todo-action danger">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="todo-description">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur culpa obcaecati deleniti, ipsa excepturi sunt dolores minima. Eaque quaerat laudantium temporibus laborum odit minus, impedit possimus quas magnam earum nihil.
+                    </div>
+                </div>
+                
+                <div class="todo-status-container">
+                    <div style="margin-right: 20px;display: flex;align-items: center;">
+                        <div class="todo-due-point"></div><div>12/34/24</div>
+                    </div>
+                    <div>
+                        <button class="todo-status-button">Mark as completed</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        
+        const inputs = Object.values(document.getElementsByClassName('input'));
+
+        // Handle add-to-do button
+        const addTodoItemButton = document.getElementById('todo-button');
+        addTodoItemButton.addEventListener('click',function onAddTodo(e){
+            const title = inputs[0].value;
+            if(!title.trim().length) return alert('Enter title');
+            const description = inputs[1].value;
+            let dateTime = inputs[2].value;
+            if(!dateTime.length) return alert('Enter date and time');
+            dateTime = new Date(dateTime).toLocaleString()
+            createTodoItem({title, description, dateTime});
+            // Clear inputs
+            inputs.forEach((input)=>{
+                input.value='';
+                input.nextElementSibling.classList.remove('hide-on-input-blur');
+            })
+            x++;
+        },false);
+
+        // Handle keyboard enter keypress
+        inputs[0].addEventListener('keyup',function onKeyup(e){
+            if(e.keyCode==13&&!e.shiftKey){
+                if(!this.value.trim().length) return alert('Enter title'),this.focus();
+                inputs[1].focus()
+            }
+            
+        },false)
+        inputs[1].addEventListener('keyup',function onKeyup(e){
+            if(e.keyCode==13&&!e.shiftKey){
+                // if(!this.value.trim().length) return this.focus();
+                inputs[2].focus()
+            }
+        },false)
+        inputs[2].addEventListener('keyup',function onKeyup(e){
+            if(e.keyCode==13&&!e.shiftKey){
+                if(!this.value.length) return alert('Enter date and time'),this.focus();
+                addTodoItemButton.click();
+                inputs[0].focus()
+            }
+        },false)
+
+        // Hnadle input titles or dexcripions and placeholders
+        const inputPlaceHolders = document.getElementsByClassName('input-description');
+        Object.values(inputPlaceHolders).forEach((placeholder)=>{
+            
+            placeholder.addEventListener('click',placeholderOnClick,false)
+            const closestInput = placeholder.previousElementSibling
+            closestInput.addEventListener('blur',closestInputOnBlur,false)
+            closestInput.addEventListener('focus',closestInputOnFocus,false)
+        })
+
+        function placeholderOnClick(){
+            // Get the actual input or textarea element
+            this.previousElementSibling.focus();
+        }
+        function closestInputOnBlur(){
+            // Hide or show placeholder based on input value's length
+            if(this.value.length>0){
+                this.nextElementSibling.classList.add('hide-on-input-blur')
+            }else{
+                this.nextElementSibling.classList.remove('hide-on-input-blur')
+            }
+        }
+        function closestInputOnFocus(){
+            // Show placeholder as title if input is focused
+            const placeholder = this.nextElementSibling;
+            placeholder.classList.contains('hide-on-input-blur')&&placeholder.classList.remove('hide-on-input-blur');
+        }
+
+
+        // Handle creation of to-do item
+        const todoItemTemplate = document.getElementById('todo-item-template').firstElementChild;
+        const todoItemsContainer = document.getElementById('todos');
+        const todoItems = todoItemsContainer.getElementsByClassName('todo-item');
+
+        function createTodoItem({status, title, description, dateTime}){
+            
+            const todoItemNode = todoItemTemplate.cloneNode(true);
+            const todoItemInnerNodes = getTodoItemNodes(todoItemNode);
+
+            
+            function onRemoveItem(e){
+                removeTodoItem(todoItemNode);
+                cleanUp(); // Remove event listeners
+            }
+            function onStatusUpdate(e){
+                if(this.markedComplete){
+                    todoItemNode.classList.add(status);
+                    todoItemNode.classList.remove('complete');
+                    this.textContent = 'Mark as completed'
+                }else{
+                    todoItemNode.classList.add('complete');
+                    todoItemNode.classList.remove(status);
+                    this.textContent = 'Unmark as complete'
+                }
+                
+                this.markedComplete = !this.markedComplete
+            }
+            function cleanUp(){
+                todoItemInnerNodes.removeButton.removeEventListener('click',onRemoveItem,false);
+                todoItemInnerNodes.statusButton.removeEventListener('click',onStatusUpdate,false)
+            }
+            todoItemInnerNodes.removeButton.addEventListener('click',onRemoveItem,false)
+            todoItemInnerNodes.statusButton.addEventListener('click',onStatusUpdate,false)
+            todoItemInnerNodes.dateTime.textContent = dateTime;
+            todoItemInnerNodes.title.textContent = title;
+            todoItemInnerNodes.description.textContent = description||'No description';
+
+            
+            // Set status of the to do item
+            status = getStatus(dateTime);
+            todoItemNode.classList.add(status)
+
+            // Handle to-do item entry animations
+            const todos = Object.values(todoItems);
+            todos.forEach(slideTodoItemDown);
+            setTimeout(() => {
+                // Set entry animation 
+                slideTodoItemEntry(todoItemNode)
+                todoItemsContainer.prepend(todoItemNode);
+                setTimeout(() => {
+                    // Remove entry animation 
+                    removeSlideEntryClass(todoItemNode)
+                }, 200);
+                todos.forEach(removeSlideDownClass);
+            }, 200);
+            
+        }
+
+        // Helper functions
+
+        function getStatus(dateTime){
+            const now = Date.now();
+            const date = (new Date(dateTime)).getTime();
+            return now >= date? 'overdue': 'default';
+        }
+        function slideTodoItemEntry(todoItemNode){
+            todoItemNode.classList.add('item-entry');
+        }
+        function slideTodoItemDown(todoItemNode){
+            todoItemNode.classList.add('slide-down');
+        }
+        function slideTodoItemUp(todoItemNode){
+            todoItemNode.classList.add('slide-up');
+        }
+        function removeSlideDownClass(todoItemNode){
+            todoItemNode.classList.remove('slide-down');
+        }
+        function removeSlideEntryClass(todoItemNode){
+            todoItemNode.classList.remove('item-entry');
+        }
+        function removeSlideUpClass(todoItemNode){
+            todoItemNode.classList.remove('slide-up');
+        }
+        function fadeTodoItemOut(todoItemNode){
+            todoItemNode.classList.add('fade-remove');
+        }
+        function removeFadeClass(todoItemNode){
+            todoItemNode.classList.remove('fade-remove');
+        }
+
+        function removeTodoItem(todoItemNode){
+            // Handle to-do item removal animations
+            fadeTodoItemOut(todoItemNode);
+            setTimeout(() => {
+                const todos = Object.values(todoItems);
+                const index = todos.indexOf(todoItemNode);
+                const [itemsAbove, itemsBelow] = [todos.slice(0,index),todos.slice(index+1)];
+                itemsBelow.length&&itemsAbove.forEach(slideTodoItemDown);
+                itemsBelow.forEach(slideTodoItemUp)
+                setTimeout(() => {
+                    itemsBelow.length&&itemsAbove.forEach(removeSlideDownClass);
+                    itemsBelow.forEach(removeSlideUpClass)
+                    todoItemNode.remove();
+                }, 200);
+            }, 300);
+        }
+
+        // Get the necessary nodes from a cloned to do item
+        function getTodoItemNodes(todoItemNode){ 
+            const actions = todoItemNode.getElementsByClassName('todo-action');
+            return {
+                title: todoItemNode.getElementsByTagName('h3')[0],
+                description: todoItemNode.getElementsByClassName('todo-description')[0],
+                dateTime: todoItemNode.getElementsByClassName('todo-due-point')[0].nextElementSibling,
+                statusButton: todoItemNode.getElementsByClassName('todo-status-button')[0],
+                editButton: actions.item(0),
+                removeButton: actions.item(1)
+            }
+        }
+
+        // createTodoItem({})
+        // createTodoItem({})
+        // createTodoItem({})
+        // createTodoItem({})
+
+    </script>
+</body>
+</html>
