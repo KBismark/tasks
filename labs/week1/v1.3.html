@@ -391,6 +391,15 @@
                 opacity: 0;
             }
         }
+
+        .inactive {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -437,7 +446,8 @@
                         <h3>Title</h3>
                         <div class="todo-actions">
                             <div role="button" aria-label="Edit todo item" class="todo-action" style="margin-right: 15px;">
-                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#4c4c4c"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                                <svg name="edit" class="todo__action-item active"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#4c4c4c"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                                <svg  class="todo__action-item inactive"  name="cancel" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                             </div>
                             <div role="button" aria-label="Remove todo item" class="todo-action danger">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
@@ -459,13 +469,13 @@
                     
                 </div>
             </div>
-            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#4c4c4c"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
-            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+            <svg name="edit"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#4c4c4c"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+            <svg name="cancel" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
         </div>
     </main>
     
     <script>
-        
+        // Global 
         const inputs = Object.values(document.getElementsByClassName('input'));
 
         // Handle add-to-do button
@@ -476,8 +486,17 @@
             const description = inputs[1].value;
             let dateTime = inputs[2].value;
             if(!dateTime.length) return alert('Enter date and time');
-            dateTime = new Date(dateTime).toLocaleString()
-            createTodoItem({title, description, dateTime});
+            dateTime = new Date(dateTime).toLocaleString();
+
+            // const editingItem = Object.keys(editCallbacks);
+            if(!editingItem){
+                // If we aren't editing a to do item, create a new one
+                createTodoItem({title, description, dateTime});
+            }else{
+                // Apply new updates to todo item
+                updateTodoItem({title, description, dateTime, todoItemNode: editingItem})
+            }
+            
             // Clear inputs
             inputs.forEach((input)=>{
                 input.value='';
@@ -486,54 +505,58 @@
         },false);
 
         // Handle keyboard enter keypress
-        inputs[0].addEventListener('keyup',function onKeyup(e){
-            if(e.keyCode==13&&!e.shiftKey){
-                if(!this.value.trim().length) return alert('Enter title'),this.focus();
-                inputs[1].focus()
-            }
-            
-        },false)
-        inputs[1].addEventListener('keyup',function onKeyup(e){
-            if(e.keyCode==13&&!e.shiftKey){
-                // if(!this.value.trim().length) return this.focus();
-                inputs[2].focus()
-            }
-        },false)
-        inputs[2].addEventListener('keyup',function onKeyup(e){
-            if(e.keyCode==13&&!e.shiftKey){
-                if(!this.value.length) return alert('Enter date and time'),this.focus();
-                addTodoItemButton.click();
-                inputs[0].focus()
-            }
-        },false)
+       !function HandleKeyboardEnterPressOnInputs(){
+            inputs[0].addEventListener('keyup',function onKeyup(e){
+                if(e.keyCode==13&&!e.shiftKey){
+                    if(!this.value.trim().length) return alert('Enter title'),this.focus();
+                    inputs[1].focus()
+                }
+                
+            },false)
+            inputs[1].addEventListener('keyup',function onKeyup(e){
+                if(e.keyCode==13&&!e.shiftKey){
+                    // if(!this.value.trim().length) return this.focus();
+                    inputs[2].focus()
+                }
+            },false)
+            inputs[2].addEventListener('keyup',function onKeyup(e){
+                if(e.keyCode==13&&!e.shiftKey){
+                    if(!this.value.length) return alert('Enter date and time'),this.focus();
+                    addTodoItemButton.click();
+                    inputs[0].focus()
+                }
+            },false);
 
-        // Hnadle input titles or dexcripions and placeholders
-        const inputPlaceHolders = document.getElementsByClassName('input-description');
-        Object.values(inputPlaceHolders).forEach((placeholder)=>{
-            
-            placeholder.addEventListener('click',placeholderOnClick,false)
-            const closestInput = placeholder.previousElementSibling
-            closestInput.addEventListener('blur',closestInputOnBlur,false)
-            closestInput.addEventListener('focus',closestInputOnFocus,false)
-        })
 
-        function placeholderOnClick(){
-            // Get the actual input or textarea element
-            this.previousElementSibling.focus();
-        }
-        function closestInputOnBlur(){
-            // Hide or show placeholder based on input value's length
-            if(this.value.length>0){
-                this.nextElementSibling.classList.add('hide-on-input-blur')
-            }else{
-                this.nextElementSibling.classList.remove('hide-on-input-blur')
+            // Hnadle input titles or dexcripions and placeholders
+            const inputPlaceHolders = document.getElementsByClassName('input-description');
+            Object.values(inputPlaceHolders).forEach((placeholder)=>{
+                
+                placeholder.addEventListener('click',placeholderOnClick,false)
+                const closestInput = placeholder.previousElementSibling
+                closestInput.addEventListener('blur',closestInputOnBlur,false)
+                closestInput.addEventListener('focus',closestInputOnFocus,false)
+            })
+
+            function placeholderOnClick(){
+                // Get the actual input or textarea element
+                this.previousElementSibling.focus();
             }
-        }
-        function closestInputOnFocus(){
-            // Show placeholder as title if input is focused
-            const placeholder = this.nextElementSibling;
-            placeholder.classList.contains('hide-on-input-blur')&&placeholder.classList.remove('hide-on-input-blur');
-        }
+            function closestInputOnBlur(){
+                // Hide or show placeholder based on input value's length
+                if(this.value.length>0){
+                    this.nextElementSibling.classList.add('hide-on-input-blur')
+                }else{
+                    this.nextElementSibling.classList.remove('hide-on-input-blur')
+                }
+            }
+            function closestInputOnFocus(){
+                // Show placeholder as title if input is focused
+                const placeholder = this.nextElementSibling;
+                placeholder.classList.contains('hide-on-input-blur')&&placeholder.classList.remove('hide-on-input-blur');
+            }
+
+       }()
 
         // A data store for todos
         let TODOS = [];
@@ -547,45 +570,149 @@
         const todoItemsContainer = document.getElementById('todos');
         const todoItems = todoItemsContainer.getElementsByClassName('todo-item');
 
-        let editCallbacks = {}
+        // Editing related variables
+        const noops = ()=>{};
+        let editCallbacks = {};
+        let stopEditing = noops;
+        let editingItem = null;
+
+        
+        
+        function editItem(todoItemNode){
+            
+            const todoItemData = TODOS.find((data)=>data.todoId===todoItemNode.todoId);
+            
+            if(todoItemData){
+                inputs[0].value = todoItemData.title;
+                inputs[1].value = todoItemData.description;
+                inputs[2].value = new Date(todoItemData.dateTime).toISOString().slice(0, 16);
+                inputs[0].focus();
+                editingItem = todoItemNode;
+            }
+        }
+
+        function updateTodoItem({status, title, description, dateTime, todoId, dueTime, todoItemNode}){
+            const todoItemInnerNodes = getTodoItemNodes(todoItemNode);
+            todoItemInnerNodes.dateTime.textContent = dateTime;
+            todoItemInnerNodes.title.textContent = title;
+            todoItemInnerNodes.description.textContent = description||'No description';
+            stopEditing()
+        }
+        
+        function removeTodoItem(todoItemNode){
+            // Handle to-do item removal animations
+            fadeTodoItemOut(todoItemNode);
+            setTimeout(() => {
+                const todos = Object.values(todoItems);
+                const index = todos.indexOf(todoItemNode);
+                const [itemsAbove, itemsBelow] = [todos.slice(0,index),todos.slice(index+1)];
+                itemsBelow.length&&itemsAbove.forEach(slideTodoItemDown);
+                itemsBelow.forEach(slideTodoItemUp)
+                setTimeout(() => {
+                    itemsBelow.length&&itemsAbove.forEach(removeSlideDownClass);
+                    itemsBelow.forEach(removeSlideUpClass);
+
+                    // Stop editing if any
+                    editingItem===todoItemNode&&stopEditing();
+                    // Remove todo item element and data
+                    todoItemNode.remove();
+                    TODOS = TODOS.filter((data)=>data.todoId!==todoItemNode.todoId);
+                    window.localStorage.setItem('todos', JSON.stringify(TODOS));
+
+                }, 200);
+            }, 300);
+        }
+
+        function sortTodoItems(){
+            let todos = Object.values(todoItems);
+            const currentState = todos.slice();
+            todos.sort((todoItemNode1,todoItemNode2)=> todoItemNode1.dueTime-todoItemNode2.dueTime);
+            
+            const [itemsToMoveUp, itemsToMoveDown] = [[],[]]
+            todos.forEach((todoItemNode,index)=>{
+                const currentIndexPosition = currentState.indexOf(todoItemNode);
+                if(index < currentIndexPosition){
+                    itemsToMoveUp.push(todoItemNode)
+                }else if(index > currentIndexPosition){
+                    itemsToMoveDown.push(todoItemNode)
+                }
+            })
+            
+            if(itemsToMoveDown.length+itemsToMoveUp.length){
+                itemsToMoveDown.forEach(slideTodoItemDown);
+                itemsToMoveUp.forEach(slideTodoItemUp);
+                setTimeout(() => {
+                    todoItemsContainer.textContent = '';
+                    itemsToMoveDown.forEach(removeSlideDownClass);
+                    itemsToMoveUp.forEach(removeSlideUpClass);
+                    todoItemsContainer.prepend(...todos);
+                }, 200);
+            }
+        }
 
         function createTodoItem({status, title, description, dateTime, todoId, dueTime}){
             
             const todoItemNode = todoItemTemplate.cloneNode(true);
             const todoItemInnerNodes = getTodoItemNodes(todoItemNode);
+            const todoAcions = Object.values(todoItemInnerNodes.editButton.getElementsByClassName("todo__action-item"));
 
             
             function onRemoveItem(e){
                 removeTodoItem(todoItemNode);
                 cleanUp(); // Remove event listeners
             }
-            function onEdit(){
-                for(let id in editCallbacks){
-                    editCallbacks[id]()
+
+            function onStopEditing(forceClearInput){
+                editCallbacks[todoId]();
+                editCallbacks = {};
+                editingItem = null; // Not currently editing item 
+                stopEditing = noops;
+                if(forceClearInput){
+                    inputs[0].value = '';
+                    inputs[1].value = '';
+                    inputs[2].value = '';
+                    inputs[0].focus();
                 }
-                const currentIcon = this.firstElementChild;
+            }
+
+            function onEdit(){
                 if(!this.isEditingOn){
-                    const cancelIconCopy = cancelIcon.cloneNode(true);
-                    currentIcon.replaceWith(cancelIconCopy);
+                    for(let id in editCallbacks){
+                        id!==todoId&&editCallbacks[id]();
+                    }
+                    editCallbacks = {}
+
+                    todoAcions.forEach(icon => {
+                        if(icon.classList.contains("active")){
+                            icon.classList.remove("active");
+                            icon.classList.add("inactive");
+                        }else {
+                            icon.classList.remove("inactive")
+                            icon.classList.add("active")
+                        }
+                        
+                    });
                     editItem(todoItemNode);
-                    this.isEditingOn = true;
-                    editCallbacks[todoId] = ()=>{
-                        const editIconCopy = editIcon.cloneNode(true);
-                        console.log([this.firstElementChild]);
-                        console.log(editIconCopy);
-                        
-                        
-                        this.firstElementChild.replaceWith(editIconCopy);
-                        this.isEditingOn = false;
+                    todoItemInnerNodes.editButton.isEditingOn = true;
+                    //
+                    stopEditing = onStopEditing;
+                    editCallbacks[todoId] = function(){
+                        const edit = todoAcions[0];
+                        edit.classList.remove("inactive");
+                        edit.classList.add("active");
+                        //
+                        const cancel = todoAcions[1];
+                        cancel.classList.remove("active");
+                        cancel.classList.add("inactive");
+                        todoItemInnerNodes.editButton.isEditingOn = false;
                     }
                 }else{
-                    // for(todoId in editCallbacks){
-                        editCallbacks[todoId]()
-                    // }
-                    
+                    onStopEditing(true)
                 }
                 
             }
+
+            // Handle mark us complete button
             function onStatusUpdate(e){
                 if(this.markedComplete){
                     todoItemNode.classList.add(status);
@@ -599,14 +726,20 @@
                 
                 this.markedComplete = !this.markedComplete
             }
+
+            // Cleanups during node removal
             function cleanUp(){
                 todoItemInnerNodes.removeButton.removeEventListener('click',onRemoveItem,false);
                 todoItemInnerNodes.statusButton.removeEventListener('click',onStatusUpdate,false);
                 todoItemInnerNodes.editButton.removeEventListener('click',onEdit,false)
             }
+
+            // Attach event listeners
             todoItemInnerNodes.removeButton.addEventListener('click',onRemoveItem,false)
             todoItemInnerNodes.statusButton.addEventListener('click',onStatusUpdate,false)
             todoItemInnerNodes.editButton.addEventListener('click',onEdit,false)
+
+            // Set item texts
             todoItemInnerNodes.dateTime.textContent = dateTime;
             todoItemInnerNodes.title.textContent = title;
             todoItemInnerNodes.description.textContent = description||'No description';
@@ -620,8 +753,6 @@
             const todos = Object.values(todoItems);
             todos.forEach(slideTodoItemDown);
             setTimeout(() => {
-                
-                
                 dueTime = dueTime||(new Date(dateTime)).getTime();
                 // Add identifier to item
                 todoId = todoId||`${Math.random()}-${dueTime}`;
@@ -674,69 +805,6 @@
         }
         function removeFadeClass(todoItemNode){
             todoItemNode.classList.remove('fade-remove');
-        }
-
-        function removeTodoItem(todoItemNode){
-            // Handle to-do item removal animations
-            fadeTodoItemOut(todoItemNode);
-            setTimeout(() => {
-                const todos = Object.values(todoItems);
-                const index = todos.indexOf(todoItemNode);
-                const [itemsAbove, itemsBelow] = [todos.slice(0,index),todos.slice(index+1)];
-                itemsBelow.length&&itemsAbove.forEach(slideTodoItemDown);
-                itemsBelow.forEach(slideTodoItemUp)
-                setTimeout(() => {
-                    itemsBelow.length&&itemsAbove.forEach(removeSlideDownClass);
-                    itemsBelow.forEach(removeSlideUpClass)
-                    // Remove todo item element and data
-                    todoItemNode.remove();
-                    TODOS = TODOS.filter((data)=>data.todoId!==todoItemNode.todoId);
-                    window.localStorage.setItem('todos', JSON.stringify(TODOS));
-
-                }, 200);
-            }, 300);
-        }
-
-        function sortTodoItems(){
-            let todos = Object.values(todoItems);
-            const currentState = todos.slice();
-            todos.sort((todoItemNode1,todoItemNode2)=> todoItemNode1.dueTime-todoItemNode2.dueTime);
-            
-            const [itemsToMoveUp, itemsToMoveDown] = [[],[]]
-            todos.forEach((todoItemNode,index)=>{
-                const currentIndexPosition = currentState.indexOf(todoItemNode);
-                if(index < currentIndexPosition){
-                    itemsToMoveUp.push(todoItemNode)
-                }else if(index > currentIndexPosition){
-                    itemsToMoveDown.push(todoItemNode)
-                }
-            })
-            
-            if(itemsToMoveDown.length+itemsToMoveUp.length){
-                itemsToMoveDown.forEach(slideTodoItemDown);
-                itemsToMoveUp.forEach(slideTodoItemUp);
-                setTimeout(() => {
-                    todoItemsContainer.textContent = '';
-                    itemsToMoveDown.forEach(removeSlideDownClass);
-                    itemsToMoveUp.forEach(removeSlideUpClass);
-                    todoItemsContainer.prepend(...todos);
-                }, 200);
-            }
-            
-            
-        }
-
-        function editItem(todoItemNode){
-            
-            const todoItemData = TODOS.find((data)=>data.todoId===todoItemNode.todoId);
-            
-            if(todoItemData){
-                // {status, title, description, dateTime, dueTime, todoId }
-                inputs[0].value = todoItemData.title;
-                inputs[1].value = todoItemData.description;
-                inputs[2].value = new Date(todoItemData.dateTime).toISOString().slice(0, 16);
-                inputs[0].focus()
-            }
         }
 
         // Get the necessary nodes from a cloned to do item
