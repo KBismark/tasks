@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <script type="module" src="assets/js/index.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+</head>
+<body>
+    <div class="gallery-container">
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="close-button" id="closeButton">×</button>
+        <button class="nav-button prev-button" id="prevButton">←</button>
+        <div class="lightbox-content">
+            <div class="lightbox-image-container" id="imageContainer">
+                <!-- Images here -->
+            </div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+        <button class="nav-button next-button" id="nextButton">→</button>
+    </div>
+</body>
+</html>
