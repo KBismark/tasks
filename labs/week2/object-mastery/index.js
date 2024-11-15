@@ -28,27 +28,70 @@ class SuperHero {
         if (props.weakness) {
             this.weakness = props.weakness;
         }
-        Object.setPrototypeOf(this, Hero);
     }
+    name = ''
+    secretIdentity = ''
+    powers = []
+    weakness = ''
+    rank = ''
+
 }
 
-class ExtendedSuperHero {
-    constructor(props) {
-        SuperHero.bind(this)(props || {});
-        const defaultProps = {
-            name: true, powers: true,
-            weakness: true, secretIdentity: true,
-        };
-        for (let prop in props) {
-            if (!defaultProps[prop]) {
-                this[prop] = props[prop];
-            }
-        }
+// Task 4: Prototypal Inheritance
+class ExtendedSuperHero extends SuperHero {
+    constructor(props={hiddenPowers:[]}) {
+        super(props);
+        this.hiddenPowers = props.hiddenPowers;
     }
+    hiddenPowers = []
+    rank = 0
 }
 
-const superhero = new ExtendedSuperHero({
+// Task 5: Object Iteration and Transformation
+
+const super_IronMan = new SuperHero({
     name: 'Iron Man',
-    godname: 'Hello',
+    secretIdentity: 'iron_secret',
+    powers: ['Iron hammer'],
+    weakness: 'Water'
 });
-console.log(superhero.name, superhero.godname);
+
+const super_Acquaman = new SuperHero({
+    name: 'Acquaman',
+    secretIdentity: 'water_secret',
+    powers: ['Water'],
+    weakness: 'Fire'
+});
+
+const superhero_Kyeiwaa = new ExtendedSuperHero({
+    name: 'Kyeiwaa',
+    secretIdentity: 'witchcraft_secret',
+    powers: ['Fly without wings'],
+    weakness: 'Prayers',
+    hiddenPowers: ['Kill']
+});
+
+const superhero_Sampson = new ExtendedSuperHero({
+    name: 'Sampson',
+    secretIdentity: 'stength_secret',
+    powers: ['Natural Strenght'],
+    weakness: 'Delilah',
+    hiddenPowers: ['Kill lions']
+});
+
+const allHeroes = [superhero_Kyeiwaa, superhero_Sampson,super_IronMan, super_Acquaman]
+
+allHeroes.forEach((hero)=>{
+    console.log(`${hero.name}'s powers are ${JSON.stringify(hero.powers)}`);
+})
+
+const allHeroesWithRanks = allHeroes.map((hero,index)=>{
+    hero.rank = index+1;
+    return hero;
+})
+
+const superheroes = allHeroes.filter((hero,index)=>hero instanceof ExtendedSuperHero)
+
+
+console.log(superheroes);
+
