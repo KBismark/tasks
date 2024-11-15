@@ -26,6 +26,21 @@
     
 </head>
 <body>
+    
+    <div id="clock-postion"></div>
+
+    <div style="display: flex;align-items: center;margin-bottom: 3.4rem;">
+        <input id="color-input" type="text" style="margin-right: 15px;">
+        <button id="color-setter" style="margin-right: 0;">Set color</button>
+    </div>
+    <div style="display: flex;align-items: center;">
+        <div>Hour: </div>
+        <input min="0" max="23" id="hour-input" type="number" style="margin-right: 15px;width: 100px;">
+        <div>Minute: </div>
+        <input min="0" max="59" id="minute-input" type="number" style="margin-right: 15px;width: 100px;">
+        <button id="alarm-setter" style="margin-right: 0;">Set Alarm</button>
+    </div>
+
     <script src="index.js"></script>
 </body>
 </html>
