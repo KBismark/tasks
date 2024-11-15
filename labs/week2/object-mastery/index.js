@@ -33,7 +33,7 @@ class SuperHero {
     secretIdentity = ''
     powers = []
     weakness = ''
-    rank = ''
+    rank = 0
 
 }
 
@@ -44,7 +44,6 @@ class ExtendedSuperHero extends SuperHero {
         this.hiddenPowers = props.hiddenPowers;
     }
     hiddenPowers = []
-    rank = 0
 }
 
 // Task 5: Object Iteration and Transformation
