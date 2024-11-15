@@ -1,4 +1,9 @@
 
+// Task 1: Time Object Basics
+const TimeObject = new Date()
+console.log(TimeObject.getHours(), TimeObject.getMinutes(), TimeObject.getSeconds());
+
+// Task 2: Object-Oriented Clock
 function formatNumberToText(number){
     return number<10?`0${number}`:`${number}`
 }
@@ -131,6 +136,7 @@ Clock.prototype.removeAlarm = function removeAlarm({hours, minutes} = {hours: 0,
 }
 
 
+// Task 4: Dynamic Display of Clock
 const clock = new Clock();
 
 document.getElementById('clock-postion').replaceWith(clock.getClockElement())
