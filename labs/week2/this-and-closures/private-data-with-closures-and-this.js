@@ -10,5 +10,5 @@ function createCounter(){
     }
 }
 
-// const counter = createCounter();
-// counter.increment()
+const counter = createCounter();
+counter.increment()
