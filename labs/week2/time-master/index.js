@@ -143,6 +143,19 @@ document.getElementById('clock-postion').replaceWith(clock.getClockElement())
 
 clock.displayClock()
 
+const $24HourButton  = document.getElementById('hour-format-button').addEventListener('click',function(){
+    if(this.is24HourFormat){
+        this.is24HourFormat = false;
+        this.textContent = 'Change to 24 hour format'
+        clock.setTo12HourFormat()
+    }else{
+        this.is24HourFormat = true;
+        this.textContent = 'Change to 12 hour format'
+        clock.setTo24HourFormat()
+    }
+})
+
+
 const colorInput = document.getElementById('color-input')
 document.getElementById('color-setter').addEventListener('click',function(){
     const inputValue = colorInput.value.trim();
