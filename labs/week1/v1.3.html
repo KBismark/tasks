@@ -482,7 +482,7 @@
         const addTodoItemButton = document.getElementById('todo-button');
         addTodoItemButton.addEventListener('click',function onAddTodo(e){
             const title = inputs[0].value;
-            if(!title.trim().length) return alert('Enter title');
+            if(title.trim().length<1) return alert('Enter title');
             const description = inputs[1].value;
             let dateTime = inputs[2].value;
             if(!dateTime.length) return alert('Enter date and time');
