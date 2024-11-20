@@ -1,5 +1,7 @@
 # Frontend Mentor - Password generator app
 
+![password-generator-app](https://github.com/user-attachments/assets/659e8562-ad4c-425b-a55d-6e5bd3929143)    
+
 ![Design preview for the Password generator app coding challenge](./preview.jpg)
 
 ## Welcome! 👋
