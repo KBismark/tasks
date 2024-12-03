@@ -1,5 +1,4 @@
 :host{
-  background-color: #ffffff;
   padding: 10px;
   border-radius: 10px;
   width: 98%;
@@ -9,6 +8,13 @@
   align-items: center;
   margin-bottom: 14px;
   cursor: pointer;
+}
+
+[data-theme="light"] :host{
+  background-color: #ffffff;
+}
+[data-theme="dark"] :host{
+  background-color: #2d3c51;
 }
 
 .choice-point{

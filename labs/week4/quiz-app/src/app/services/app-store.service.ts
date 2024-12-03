@@ -1,23 +1,31 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { AppTypes } from '../interface/app';
-
-const quizzesEndpoint = 'http://localhost:3000'
+import { quizData } from '../../data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppStoreService {
   constructor() { }
+  lightMode = signal(true)
   quizStore: {[k: string]: AppTypes['quiz']} = {}
+  quiz: AppTypes['quiz'] = {
+    title: '',
+    questions: []
+  }
   selection = signal<AppTypes['selectionType']>('')
+  selectionValue = signal('')
   totalQuetions = signal(10)
   answeredQustions = signal(1)
   correctAnswers = signal(0)
+  isCorrectAnswer = computed(()=>
+    ((this.quiz.questions[this.answeredQustions()-1]?.answer||'').trim()===this.selectionValue())
+  )
   answerSubmitted = signal(false)
-  quiz: AppTypes['quiz'] = {} as any
   quizType = signal('')
   quizTypeSelected = computed(()=>this.quizType()!=='')
   endOfQuiz = computed(()=>this.answeredQustions()>=this.totalQuetions()&&this.quizTypeSelected())
+
   getSelection(){
     return this.selection
   }
@@ -27,31 +35,26 @@ export class AppStoreService {
   startNewQuiz(title: string){
     this.quizType.set(title)
     this.selection.set('')
+    this.selectionValue.set('')
     this.answerSubmitted.set(false)
     this.totalQuetions.set(this.quiz.questions.length)
     this.answeredQustions.set(1)
-    this.correctAnswers.set(0)
+    // this.correctAnswers.set(0)
   }
-  async loadQuiz(){ // {title}:{title: string}
+  async loadQuiz(){
     const title = this.quizType();
     const unAvailableResponse = {title, questions: []}
     // Check and return if quizzes are loaded already
     if(Object.keys(this.quizStore).length>1){
       this.quiz = this.quizStore[title.toLowerCase()]||unAvailableResponse;
-      this.totalQuetions.set(this.quiz.questions.length)
-      this.quizType.set(title)
+      this.startNewQuiz(title)
       return
     };
-
-    try {
-      const quizzes: Array<AppTypes['quiz']> = await (await fetch(`${quizzesEndpoint}/quizzes`)).json()
-      quizzes.forEach((quiz)=>{
-        this.quizStore[quiz.title.toLowerCase()] = quiz
-      })
-      this.quiz = this.quizStore[title.toLowerCase()]||unAvailableResponse
-    } catch (error) {
-      this.quiz = unAvailableResponse
-    }
+    const quizzes: Array<AppTypes['quiz']> =  quizData.quizzes;
+    quizzes.forEach((quiz)=>{
+      this.quizStore[quiz.title.toLowerCase()] = quiz
+    })
+    this.quiz = this.quizStore[title.toLowerCase()]||unAvailableResponse
     this.startNewQuiz(title)
   }
 }

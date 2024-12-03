@@ -10,7 +10,7 @@ import { AppStoreService } from '../services/app-store.service';
   templateUrl: './answer-section.component.html',
   styleUrl: './answer-section.component.css'
 })
-export class AnswerSectionComponent /*implements OnInit*/ {
+export class AnswerSectionComponent {
   selectionIsCorrect = false
   timing: any = undefined
   appStoreService = inject(AppStoreService)
@@ -39,6 +39,9 @@ export class AnswerSectionComponent /*implements OnInit*/ {
     this.buttonClicked.set(false);
     if(!this.appStoreService.answerSubmitted()){
       this.appStoreService.answerSubmitted.set(true)
+      if(this.appStoreService.isCorrectAnswer()){
+        this.appStoreService.correctAnswers.set(this.appStoreService.correctAnswers()+1)
+      }
     }else{
       this.appStoreService.selection.set('')
       this.appStoreService.answerSubmitted.set(false)
@@ -57,8 +60,4 @@ export class AnswerSectionComponent /*implements OnInit*/ {
   getTotalQuetions(){
     return this.appStoreService.totalQuetions()
   }
-  // async ngOnInit(){
-  //   this.quiz = await this.appStoreService.getQuizzes({title: this.quizType});
-  //   this.totalQuetions = this.quiz.questions.length
-  // }
 }
