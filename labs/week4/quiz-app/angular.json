@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/quiz-app",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -93,7 +93,7 @@
         "deploy": {
           "builder": "@netlify-builder/deploy:deploy",
           "options": {
-            "outputPath": "dist/quiz-app",
+            "outputPath": "dist",
             "netlifyToken": "nfp_V4ugnAFYXfAa1LbU4qfJ4A6cnCYKhQ2Q9987",
             "siteId": "2e8ccaf0-fe1c-419e-9bc3-80ee83cb3dac"
           }
