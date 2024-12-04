@@ -24,7 +24,7 @@ export class AppStoreService {
   answerSubmitted = signal(false)
   quizType = signal('')
   quizTypeSelected = computed(()=>this.quizType()!=='')
-  endOfQuiz = computed(()=>this.answeredQustions()>=this.totalQuetions()&&this.quizTypeSelected())
+  endOfQuiz = computed(()=>this.answeredQustions()>this.totalQuetions()&&this.quizTypeSelected())
 
   getSelection(){
     return this.selection
@@ -39,7 +39,7 @@ export class AppStoreService {
     this.answerSubmitted.set(false)
     this.totalQuetions.set(this.quiz.questions.length)
     this.answeredQustions.set(1)
-    // this.correctAnswers.set(0)
+    this.correctAnswers.set(0)
   }
   async loadQuiz(){
     const title = this.quizType();
