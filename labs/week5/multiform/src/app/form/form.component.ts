@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormInfoComponent } from "../form-info/form-info.component";
+import { AppstoreService } from '../services/appstore.service';
 
 @Component({
   selector: 'formcontent',
@@ -10,5 +11,13 @@ import { FormInfoComponent } from "../form-info/form-info.component";
   styleUrl: './form.component.css'
 })
 export class FormComponent {
+  appStoreService = inject(AppstoreService)
+  SELECTIONS!: SELECTION
 
+  constructor(){
+    this.SELECTIONS = this.appStoreService.SELECTIONS
+  }
 }
+
+
+type SELECTION = AppstoreService['SELECTIONS']

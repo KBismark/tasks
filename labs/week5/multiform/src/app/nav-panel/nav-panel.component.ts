@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-
-const SELECTIONS = {INFO: 1, PLAN: 2, ADDONS: 3, SUMMARY: 4}
+import { Component, inject } from '@angular/core';
+import { AppstoreService } from '../services/appstore.service';
 
 @Component({
   selector: 'navigation',
@@ -9,15 +8,21 @@ const SELECTIONS = {INFO: 1, PLAN: 2, ADDONS: 3, SUMMARY: 4}
   templateUrl: './nav-panel.component.html',
   styleUrl: './nav-panel.component.css'
 })
+
 export class NavPanelComponent {
-  SELECTIONS = SELECTIONS
-  selected = SELECTIONS.INFO
+  appStoreService = inject(AppstoreService)
+  SELECTIONS!: SELECTION
 
   // Methods
-  select(selection: typeof SELECTIONS[keyof typeof SELECTIONS]){
-    this.selected = selection
+  constructor(){
+    this.SELECTIONS = this.appStoreService.SELECTIONS
+  }
+  select(selection: SELECTION[keyof SELECTION]){
+    this.appStoreService.selected = selection
   }
 }
 
 
+
+type SELECTION = AppstoreService['SELECTIONS']
 

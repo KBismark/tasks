@@ -1,11 +1,6 @@
-
-<style>
-
-</style>
-
 <div class="form-navigation">
 
-  <div (click)="select(SELECTIONS.INFO)" class="navigation-step {{selected===SELECTIONS.INFO&&'selected'}}">
+  <div (click)="select(SELECTIONS.INFO)" class="navigation-step {{appStoreService.selected===SELECTIONS.INFO&&'selected'}}">
     <div class="navigation-point-container flex-center">
       <div class="navigation-point flex-center"> <span> 1 </span> </div>
     </div>
@@ -15,7 +10,7 @@
     </div>
   </div>
 
-  <div (click)="select(SELECTIONS.PLAN)" class="navigation-step {{selected===SELECTIONS.PLAN&&'selected'}}">
+  <div (click)="select(SELECTIONS.PLAN)" class="navigation-step {{appStoreService.selected===SELECTIONS.PLAN&&'selected'}}">
     <div class="navigation-point-container flex-center">
       <div class="navigation-point flex-center"> <span> 2 </span> </div>
     </div>
@@ -25,7 +20,7 @@
     </div>
   </div>
 
-  <div (click)="select(SELECTIONS.ADDONS)" class="navigation-step {{selected===SELECTIONS.ADDONS&&'selected'}}">
+  <div (click)="select(SELECTIONS.ADDONS)" class="navigation-step {{appStoreService.selected===SELECTIONS.ADDONS&&'selected'}}">
     <div class="navigation-point-container flex-center">
       <div class="navigation-point flex-center"> <span> 3 </span> </div>
     </div>
@@ -35,7 +30,7 @@
     </div>
   </div>
 
-  <div (click)="select(SELECTIONS.SUMMARY)" class="navigation-step {{selected===SELECTIONS.SUMMARY&&'selected'}}">
+  <div (click)="select(SELECTIONS.SUMMARY)" class="navigation-step {{appStoreService.selected===SELECTIONS.SUMMARY&&'selected'}}">
     <div class="navigation-point-container flex-center">
       <div class="navigation-point flex-center"> <span> 4 </span> </div>
     </div>
