@@ -33,6 +33,10 @@ input:focus{
   border: 2px solid #483EFF;
 }
 
+input.warn{
+  border: 2px solid #EE374A;
+}
+
 .name-container{
   display: flex;
   justify-content: space-between;

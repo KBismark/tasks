@@ -6,6 +6,7 @@
   padding: 25px 15px;
   display: flex;
   justify-content: center;
+  margin-bottom: 8%;
 }
 
 .content{
@@ -24,6 +25,7 @@
     margin-top: 110px;
     z-index: 3;
     border-radius: 10px;
+    margin-bottom: 25%;
   }
 
 }
