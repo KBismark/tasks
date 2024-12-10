@@ -20,6 +20,12 @@ export class NavPanelComponent {
   select(selection: SELECTION[keyof SELECTION]){
     this.appStoreService.selected = selection
   }
+
+  onItemSelectedWithKeyboard(e: KeyboardEvent, selection: SELECTION[keyof SELECTION]){
+    if(e.key.toLowerCase()==='enter'){
+      this.select(selection)
+    }
+  }
 }
 
 

@@ -21,7 +21,6 @@ export class FormAddonsComponent {
   }
 
   onItemSelectedWithKeyboard(e: KeyboardEvent, index: number){
-    console.log(e);
     if(e.key.toLowerCase()==='enter'){
       this.onItemSelected(index)
     }

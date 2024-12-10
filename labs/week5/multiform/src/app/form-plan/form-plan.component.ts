@@ -25,4 +25,16 @@ export class FormPlanComponent {
   onCategoryClick(planCategory:'arcade'|'advanced'|'pro'){
     this.appStoreService.planCategory = planCategory
   }
+
+  onItemClickedWithKeyboard(e: KeyboardEvent, planCategory:'arcade'|'advanced'|'pro'){
+    if(e.key.toLowerCase()==='enter'){
+      this.onCategoryClick(planCategory)
+    }
+  }
+
+  onItemToggledWithKeyboard(e: KeyboardEvent){
+    if(e.key.toLowerCase()==='enter'){
+      this.onToggle()
+    }
+  }
 }
