@@ -42,6 +42,11 @@ p{
 
 }
 
+.left-group.no-addons{
+  padding-bottom: 0px;
+  border-bottom: 0px solid transparent;
+}
+
 .change-button{
   border: none;
   background-color: transparent;
