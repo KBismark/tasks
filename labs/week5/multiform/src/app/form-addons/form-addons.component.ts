@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-form-addons',
+  selector: 'form-addons.content',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './form-addons.component.html',
   styleUrl: './form-addons.component.css'
 })
