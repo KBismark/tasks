@@ -20,10 +20,12 @@ export class FormPlanComponent {
   onToggle(){
     const {planType} = this.appStoreService
     this.appStoreService.planType = planType === 'monthly'?'yearly':'monthly'
+    this.appStoreService.saveToLocalStorage()
   }
 
   onCategoryClick(planCategory:'arcade'|'advanced'|'pro'){
     this.appStoreService.planCategory = planCategory
+    this.appStoreService.saveToLocalStorage()
   }
 
   onItemClickedWithKeyboard(e: KeyboardEvent, planCategory:'arcade'|'advanced'|'pro'){

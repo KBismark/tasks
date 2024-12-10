@@ -19,6 +19,7 @@ export class NavPanelComponent {
   }
   select(selection: SELECTION[keyof SELECTION]){
     this.appStoreService.selected = selection
+    this.appStoreService.saveToLocalStorage()
   }
 
   onItemSelectedWithKeyboard(e: KeyboardEvent, selection: SELECTION[keyof SELECTION]){

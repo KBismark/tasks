@@ -28,6 +28,7 @@ export class AppComponent {
         this.appStoreService.selected = SELECTIONS.INFO
         break;
     }
+    this.appStoreService.saveToLocalStorage()
   }
   onNext(){
     const {SELECTIONS} = this.appStoreService
@@ -42,9 +43,11 @@ export class AppComponent {
         this.appStoreService.selected = SELECTIONS.SUMMARY
         break;
     }
+    this.appStoreService.saveToLocalStorage()
   }
 
   onConfirm(){
     this.appStoreService.detailsConfirmed = true
+    this.appStoreService.saveToLocalStorage()
   }
 }

@@ -8,6 +8,28 @@ const SELECTIONS = {INFO: 1, PLAN: 2, ADDONS: 3, SUMMARY: 4}
 })
 
 export class AppstoreService {
+  constructor(){
+    // Read form progress from local storage and resume from where user left
+    try {
+      let storedProgress = window.localStorage.getItem('formdata')
+      if(storedProgress){
+        const progress = JSON.parse(storedProgress) as AppstoreService&{info: FormValue}
+        this.selected = progress.selected
+        this.planCategory = progress.planCategory
+        this.planType = progress.planType
+        this.detailsConfirmed = progress.detailsConfirmed
+        this.userPersonalInfo().controls.name.setValue(progress.info.name)
+        this.userPersonalInfo().controls.email.setValue(progress.info.email)
+        this.userPersonalInfo().controls.phone.setValue(progress.info.phone)
+
+      }
+    } catch (error) {}
+
+    // Save user info from input fields in the local storage
+    this.userPersonalInfo().valueChanges.subscribe(info=>{
+      this.saveToLocalStorage()
+    })
+  }
 
   SELECTIONS = SELECTIONS
   selected = SELECTIONS.INFO
@@ -59,6 +81,21 @@ export class AppstoreService {
       Validators.maxLength(15),
     ])
   }))
+
+  saveToLocalStorage(){
+    const userinfo = this.userPersonalInfo().getRawValue();
+    window.localStorage.setItem('formdata',JSON.stringify({
+      selected: this.selected,
+      planCategory: this.planCategory,
+      planType: this.planType,
+      detailsConfirmed: this.detailsConfirmed,
+      info: {
+        name: userinfo.name||'',
+        email: userinfo.email||'',
+        phone: userinfo.phone||''
+      }
+    }))
+  }
 
 }
 
