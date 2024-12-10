@@ -6,12 +6,19 @@ const SELECTIONS = {INFO: 1, PLAN: 2, ADDONS: 3, SUMMARY: 4}
 @Injectable({
   providedIn: 'root'
 })
+
 export class AppstoreService {
+
   SELECTIONS = SELECTIONS
   selected = SELECTIONS.INFO
   planCategory: 'arcade'|'advanced'|'pro' = 'arcade'
   planType: 'yearly'|'monthly' = 'monthly'
   detailsConfirmed = false
+
+  prices = {
+    monthly: {arcade: 9, advanced: 12, pro: 15},
+    yearly: {arcade: 90, advanced: 120, pro: 150},
+  }
 
   userPersonalInfo = signal(new FormGroup({
     name : new FormControl('', [
@@ -31,6 +38,7 @@ export class AppstoreService {
       Validators.maxLength(15),
     ])
   }))
+
 }
 
 

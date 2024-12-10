@@ -3,27 +3,27 @@
 
 <div class="plan-card-container">
 
-  <div class="plan-card selected">
+  <div (click)="onCategoryClick('arcade')" role="button" tabindex="0" class="plan-card {{appStoreService.planCategory==='arcade'&&'selected'}}">
     <div class="plan-card-image-container"> <img src="../../assets/images/icon-arcade.svg" alt="Arcade icon"/> </div>
     <div class="plan-card-info">
       <div class="plan-card-title">Arcade</div>
-      <div class="plan-card-price">$9/mo</div>
+      <div class="plan-card-price">${{prices[appStoreService.planType].arcade}}/mo</div>
     </div>
   </div>
 
-  <div class="plan-card">
+  <div (click)="onCategoryClick('advanced')" role="button" tabindex="0" class="plan-card {{appStoreService.planCategory==='advanced'&&'selected'}}">
     <div class="plan-card-image-container"> <img src="../../assets/images/icon-advanced.svg" alt="Advanced icon"/> </div>
     <div class="plan-card-info">
       <div class="plan-card-title">Advanced</div>
-      <div class="plan-card-price">$12/mo</div>
+      <div class="plan-card-price">${{prices[appStoreService.planType].advanced}}/mo</div>
     </div>
   </div>
 
-  <div class="plan-card">
+  <div (click)="onCategoryClick('pro')" role="button" tabindex="0" class="plan-card {{appStoreService.planCategory==='pro'&&'selected'}}">
     <div class="plan-card-image-container"> <img src="../../assets/images/icon-pro.svg" alt="Pro icon"/> </div>
     <div class="plan-card-info">
       <div class="plan-card-title">Pro</div>
-      <div class="plan-card-price">$15/mo</div>
+      <div class="plan-card-price">${{prices[appStoreService.planType].pro}}/mo</div>
     </div>
   </div>
 

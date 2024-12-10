@@ -40,6 +40,7 @@ p{
 
 .plan-card.selected{
   background-color: #F8F9FF;
+  border: 2px solid #483EFF;
 }
 
 .plan-card-image-container{
@@ -61,10 +62,6 @@ p{
   display: block;
   width: inherit;
   height: inherit;
-}
-
-.plan-card-info{
-
 }
 
 .plan-card-title{
