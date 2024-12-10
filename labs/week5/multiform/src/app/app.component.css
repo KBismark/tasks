@@ -1,3 +1,10 @@
+main{
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+
+}
+
 .content{
   max-width: 600px;
   width: 100%;
@@ -43,6 +50,14 @@ button{
 
 button.primary:hover{
   background-color: #164A8A;
+}
+
+button.confirm{
+  background-color: #483EFF;
+}
+
+button.confirm:hover{
+  background-color: #928CFF;
 }
 
 button.final{
