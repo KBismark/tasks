@@ -1,1 +1,50 @@
-<p>form-summary works!</p>
+
+@if(!appStoreService.detailsConfirmed){
+
+
+
+  <h1>Finishing up</h1>
+  <p>Double-check everything looks OK before confirming.</p>
+
+  <div class="plan-card-container">
+
+    <div class="plan-card">
+      <div class="left-group">
+
+        <div class="plan-card-info">
+          <div class="plan-card-title">Online service</div>
+          <button class="plan-card-desc change-button">Change</button>
+        </div>
+
+        <div class="plan-card-price">+$9/mo</div>
+      </div>
+
+      <div class="add-ons">
+        <div class="plan-card-desc">Online service</div>
+        <div class="plan-card-price" style="font-weight: 400;">+$1/mo</div>
+      </div>
+      <div class="add-ons">
+        <div class="plan-card-desc">Larger storage</div>
+        <div class="plan-card-price" style="font-weight: 400;">+$2/mo</div>
+      </div>
+
+    </div>
+
+    <div class="add-ons" style="justify-content: space-between;margin: 0 25px;">
+      <div class="plan-card-desc">Total (per month)</div>
+      <div class="plan-card-price" style="color: #483EFF;font-size: 20px;" >+$12/mo</div>
+    </div>
+
+  </div>
+
+}
+@else {
+  <div class="final-message">
+      <img style="display: block;" src="../../assets/images/icon-thank-you.svg" alt="">
+      <h1>Thank you!</h1>
+      <p style="text-align: center;max-width: 500px;">
+        Thanks for confirming your subscription! We hope you have fun using our platform.
+        If you ever need support, please feel free to email us at support{{'@'}}loremgaming.com.
+      </p>
+  </div>
+}
