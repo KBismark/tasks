@@ -23,7 +23,7 @@ p{
 .plan-card{
   padding: 16px 12px;
   background-color: #ffffff;
-  height: 160px;
+  height: 148px;
   width: 140px;
   margin: 0px 6px;
   border: 2px solid #dddfe867;
@@ -85,7 +85,16 @@ p{
   background-color: #F8F9FF;
   padding: 15px;
   border-radius: 8px;
+  color: #022959;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 20px;
 }
+
+.time-selection .inactive{
+  color: #9699AA;
+}
+
 
 .switch-container{
   display: flex;
@@ -96,6 +105,7 @@ p{
   border-radius: 123px;
   margin: 0 10px;
   background-color: #022959;
+  cursor: pointer;
 }
 .switch{
   width: 18px;
@@ -108,4 +118,11 @@ p{
 }
 .switch-container.yearly-off .switch{
   transform: translateX(4%);
+}
+
+
+@media screen and (max-width: 530px) {
+  .plan-card{
+    width: 100%;
+  }
 }

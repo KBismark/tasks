@@ -27,10 +27,9 @@
     </div>
   </div>
 
-</div>
+  <div class="time-selection">
+    <div [class]="appStoreService.planType==='yearly'?'inactive':''">Monthly</div>
+    <div (click)="onToggle()" class="switch-container {{appStoreService.planType==='yearly'?'yearly-on':'yearly-off'}}"><div class="switch"></div></div>
+    <div [class]="appStoreService.planType==='monthly'?'inactive':''">Yearly</div>
+  </div>
 
-<div class="time-selection">
-  <div>Monthly</div>
-  <div (click)="onToggle()" class="switch-container {{yearlyPlan?'yearly-on':'yearly-off'}}"><div class="switch"></div></div>
-  <div>Yearly</div>
-</div>
