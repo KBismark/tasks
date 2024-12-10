@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AppstoreService } from '../services/appstore.service';
 
 @Component({
   selector: 'form-addons.content',
@@ -9,5 +10,20 @@ import { Component } from '@angular/core';
   styleUrl: './form-addons.component.css'
 })
 export class FormAddonsComponent {
+  appStoreService = inject(AppstoreService)
 
+  get addons(){
+    return this.appStoreService.addons
+  }
+  onItemSelected(index: number){
+    const {selected} = this.addons[index];
+    this.addons[index].selected = !selected
+  }
+
+  onItemSelectedWithKeyboard(e: KeyboardEvent, index: number){
+    console.log(e);
+    if(e.key.toLowerCase()==='enter'){
+      this.onItemSelected(index)
+    }
+  }
 }

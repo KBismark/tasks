@@ -20,6 +20,27 @@ export class AppstoreService {
     yearly: {arcade: 90, advanced: 120, pro: 150},
   }
 
+  addons = [
+    {
+      title: 'Online service',
+      desc: 'Access to multiplayer games',
+      price: 1,
+      selected: false
+    },
+    {
+      title: 'Larger storage',
+      desc: 'Extra 1TB of cloud save',
+      price: 2,
+      selected: false
+    },
+    {
+      title: 'Customizable profile',
+      desc: 'Custom theme on your profile',
+      price: 2,
+      selected: false
+    },
+  ]
+
   userPersonalInfo = signal(new FormGroup({
     name : new FormControl('', [
       Validators.required,
