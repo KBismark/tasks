@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AppstoreService } from '../services/appstore.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './form-plan.component.html',
   styleUrl: './form-plan.component.css'
 })
-export class FormPlanComponent {
+export class FormPlanComponent{
+
   appStoreService = inject(AppstoreService)
 
   get prices(){

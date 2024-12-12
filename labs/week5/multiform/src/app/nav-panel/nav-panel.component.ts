@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AppstoreService } from '../services/appstore.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'navigation',
@@ -11,15 +12,23 @@ import { AppstoreService } from '../services/appstore.service';
 
 export class NavPanelComponent {
   appStoreService = inject(AppstoreService)
+
+  router = inject(Router)
+
   SELECTIONS!: SELECTION
+
+  pathnames!: (keyof typeof this.appStoreService.PATHNAMES)[]
 
   // Methods
   constructor(){
     this.SELECTIONS = this.appStoreService.SELECTIONS
+    this.pathnames = Object.keys(this.appStoreService.PATHNAMES) as typeof this.pathnames
   }
   select(selection: SELECTION[keyof SELECTION]){
-    this.appStoreService.selected = selection
-    this.appStoreService.saveToLocalStorage()
+    // this.appStoreService.selected = selection
+    // this.appStoreService.saveToLocalStorage()
+
+    this.router.navigate([this.pathnames[selection]])
   }
 
   onItemSelectedWithKeyboard(e: KeyboardEvent, selection: SELECTION[keyof SELECTION]){

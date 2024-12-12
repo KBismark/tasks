@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AppstoreService } from '../services/appstore.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { AppstoreService } from '../services/appstore.service';
   templateUrl: './form-addons.component.html',
   styleUrl: './form-addons.component.css'
 })
-export class FormAddonsComponent {
+export class FormAddonsComponent{
   appStoreService = inject(AppstoreService)
 
   get addons(){

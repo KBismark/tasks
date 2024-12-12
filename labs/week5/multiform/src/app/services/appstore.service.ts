@@ -1,7 +1,18 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 const SELECTIONS = {INFO: 1, PLAN: 2, ADDONS: 3, SUMMARY: 4}
+
+const PATHNAMES: Record<URLPathname, number> = {
+  '/': SELECTIONS.INFO,
+  '/form/info': SELECTIONS.INFO,
+  '/form/plan': SELECTIONS.PLAN,
+  '/form/add-ons': SELECTIONS.ADDONS,
+  '/form/submit': SELECTIONS.SUMMARY,
+};
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +25,12 @@ export class AppstoreService {
       let storedProgress = window.localStorage.getItem('formdata')
       if(storedProgress){
         const progress = JSON.parse(storedProgress) as AppstoreService&{info: FormValue}
-        this.selected = progress.selected
         this.planCategory = progress.planCategory
         this.planType = progress.planType
-        this.detailsConfirmed = progress.detailsConfirmed
         this.userPersonalInfo().controls.name.setValue(progress.info.name)
         this.userPersonalInfo().controls.email.setValue(progress.info.email)
         this.userPersonalInfo().controls.phone.setValue(progress.info.phone)
-
+        this.router.url
       }
     } catch (error) {}
 
@@ -31,7 +40,10 @@ export class AppstoreService {
     })
   }
 
+  router = inject(Router)
+
   SELECTIONS = SELECTIONS
+  PATHNAMES = PATHNAMES
   selected = SELECTIONS.INFO
   planCategory: 'arcade'|'advanced'|'pro' = 'arcade'
   planType: 'yearly'|'monthly' = 'monthly'
@@ -85,16 +97,19 @@ export class AppstoreService {
   saveToLocalStorage(){
     const userinfo = this.userPersonalInfo().getRawValue();
     window.localStorage.setItem('formdata',JSON.stringify({
-      selected: this.selected,
       planCategory: this.planCategory,
       planType: this.planType,
-      detailsConfirmed: this.detailsConfirmed,
       info: {
         name: userinfo.name||'',
         email: userinfo.email||'',
         phone: userinfo.phone||''
       }
     }))
+  }
+
+  getSelectedPageNumber(){
+    let url: URLPathname = this.router.url.toLowerCase() as any;
+    return this.PATHNAMES[url]||this.SELECTIONS.INFO
   }
 
 }
@@ -111,3 +126,5 @@ type PersonalInfo = FormGroup<{
   email: FormControl<string | null>;
   phone: FormControl<string | null>;
 }>
+
+type URLPathname = '/'|'/form/plan'|'/form/add-ons'|'/form/submit'|'/form/info'

@@ -4,9 +4,9 @@
   <formcontent />
   <div *ngIf="!appStoreService.detailsConfirmed" class="bottom-nav-controller-container">
     <div class="content bottom-nav-controller">
-      <button (click)="onBack()" *ngIf="appStoreService.selected!==appStoreService.SELECTIONS.INFO" class="plain">Go Back</button>
+      <button (click)="onBack()" *ngIf="appStoreService.getSelectedPageNumber()!==appStoreService.SELECTIONS.INFO" class="plain">Go Back</button>
         <span></span>
-        @if(appStoreService.selected===appStoreService.SELECTIONS.SUMMARY){
+        @if(appStoreService.getSelectedPageNumber()===appStoreService.SELECTIONS.SUMMARY){
           <button (click)="onConfirm()" class="confirm">Confirm</button>
         }
         @else {

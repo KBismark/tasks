@@ -9,7 +9,8 @@ import { AppstoreService } from '../services/appstore.service';
   templateUrl: './form-summary.component.html',
   styleUrl: './form-summary.component.css'
 })
-export class FormSummaryComponent {
+
+export class FormSummaryComponent{
   appStoreService = inject(AppstoreService)
 
   get selectedAddons(){
